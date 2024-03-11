@@ -4,7 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 10.0f;
     public float xAxisRange = 10f;
-    [SerializeField]
+    public GameObject projectilePrefab;
+
     private float horizontalInput;
 
     void Update()
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
         KeepPlayerInBounds();
+
+        LaunchAProjectile();
     }
 
     void KeepPlayerInBounds()
@@ -21,5 +24,11 @@ public class PlayerController : MonoBehaviour
         
         if(transform.position.x > xAxisRange)
             transform.position = new Vector3(xAxisRange, transform.position.y, transform.position.z);
+    }
+
+    void LaunchAProjectile()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
     }
 }
